@@ -89,11 +89,13 @@ jQuery(function( $ ){
     }
   
 
-  
+  /*Настройки для статичного окна*/
   zm.windowStyle = {
   'body':'overflow:hidden;',
   'containerText':'overflow:auto; position:relative;'
   }
+  	zm.windowStyle.body = 'overflow:hidden;';
+	zm.windowStyle.containerText = 'position:fixed;overflow:auto;';
   if (zm.is_opera_mobile()) {
         zm.windowStyle.body = 'overflow:auto;';
 	zm.windowStyle.containerText = 'position:relative;';
