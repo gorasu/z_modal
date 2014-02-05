@@ -23,7 +23,7 @@
   * @param (fun) options.hookAfterCreateWindow - пользовательская функция после создания модального окна
   * 
   * @param (str)options.idElementPrefix -zm_(default) префикс для элементов модального окна
-  * @param zm_* - id блоков модального окна
+  * @param options.zm_* - id блоков модального окна
   *
   *
   * @return zm.clouseWindow() - функция которая закрывает окно
