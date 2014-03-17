@@ -1,4 +1,4 @@
-z_modal v0.9.9.9
+z_modal v0.9.9.10
 =======
 
 Плагин jQuery для создания модального окна.:
@@ -23,14 +23,14 @@ z_modal v0.9.9.9
   * @param (str)options.windowWidth  - ширина модального окна по умолчанию по содержимому
   * @param (arr)options.windowPosition  - позиция модального окна относительно окна браузера new Array(x,y) по умолчанию new Array('50%','50%')
   * 
-  * @param (str)options.windowClouseBackClick  - сыкрывать ли окно по щелчку на заднем фоне по умолчанию true
+  * @param (str)options.windowcloseBackClick  - сыкрывать ли окно по щелчку на заднем фоне по умолчанию true
   * 
-  * @param (fun)options.clouseFunction(mainContainer) - функция скрытия модального окна
+  * @param (fun)options.closeFunction(mainContainer) - функция скрытия модального окна
   * @param (fun)options.openFunction(mainContainer) - функция открытия модального окна  
-  * @param (fun)options.clouseFunctionIe(mainContainer) - функция скрытия модального окна для IE 6-8
+  * @param (fun)options.closeFunctionIe(mainContainer) - функция скрытия модального окна для IE 6-8
   * @param (fun)options.openFunctionIe(mainContainer) - функция открытия модального окна  для IE 6-8
-  * @param (str)options.clouseContent - контент для кнопки закрывания окна
-  * @param (bul)options.clouseShow - показывать ли кнопку закрывания окна true(def)
+  * @param (str)options.closeContent - контент для кнопки закрывания окна
+  * @param (bul)options.closeShow - показывать ли кнопку закрывания окна true(def)
   * 
   * @param (fun) options.hookBeforeCreateWindow - пользовательская функция до создания модального окна
   * @param (fun) options.hookAfterCreateWindow - пользовательская функция после создания модального окна
@@ -38,7 +38,7 @@ z_modal v0.9.9.9
   * @param (str)options.idElementPrefix префикс для элементов модального окна
   * @param (str)zm_* - id блоков модального окна
   *
-  * @return zm.clouseWindow() - функция которая закрывает окно
+  * @return zm.closeWindow() - функция которая закрывает окно
   * @return zm.create() - функция для создания окна
   *
   *
