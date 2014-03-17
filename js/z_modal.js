@@ -1,4 +1,4 @@
-  /** z_modal v 0.9.9.9
+  /** z_modal v 0.9.9.10
   * by Alexandr Voronin http://z-site.ru
   *
   * @param (str or dom el) content - контент модального окна, принимает строку или ссылку на элемент dom содержимое элемента становится модальным окном
@@ -10,14 +10,14 @@
   * @param (str)options.windowWidth  - ширина модального окна по умолчанию по содержимому
   * @param (arr)options.windowPosition  - позиция модального окна относительно окна браузера new Array(x,y) по умолчанию new Array('50%','50%')
   * 
-  * @param (str)options.windowClouseBackClick  - сыкрывать ли окно по щелчку на заднем фоне по умолчанию true
+  * @param (str)options.windowcloseBackClick  - сыкрывать ли окно по щелчку на заднем фоне по умолчанию true
   * 
-  * @param (fun)options.clouseFunction - функция скрытия модального окна
+  * @param (fun)options.closeFunction - функция скрытия модального окна
   * @param (fun)options.openFunction - функция открытия модального окна  
-  * @param (fun)options.clouseFunctionIe - функция скрытия модального окна для IE 6-8
+  * @param (fun)options.closeFunctionIe - функция скрытия модального окна для IE 6-8
   * @param (fun)options.openFunctionIe - функция открытия модального окна  для IE 6-8
-  * @param (str)options.clouseContent - контент для закрывашки
-  * @param (bul)options.clouseShow - показывать ли закрывашку true(def)
+  * @param (str)options.closeContent - контент для закрывашки
+  * @param (bul)options.closeShow - показывать ли закрывашку true(def)
   *
   * @param (fun) options.hookBeforeCreateWindow - пользовательская функция до создания модального окна
   * @param (fun) options.hookAfterCreateWindow - пользовательская функция после создания модального окна
@@ -26,7 +26,7 @@
   * @param options.zm_* - id блоков модального окна
   *
   *
-  * @return zm.clouseWindow() - функция которая закрывает окно
+  * @return zm.closeWindow() - функция которая закрывает окно
   * @return zm.create() - функция для создания окна
   *
   *
@@ -49,13 +49,13 @@ jQuery(function( $ ){
   'windowOpacity':'0.5',
   'windowWidth':'',
   'windowPosition': new Array('50%','50%'),
-  'windowClouseBackClick':true,
-  'clouseFunction':function(mainContainer){$(mainContainer).fadeOut(800);},
+  'windowcloseBackClick':true,
+  'closeFunction':function(mainContainer){$(mainContainer).fadeOut(800);},
   'openFunction':function(mainContainer){$(mainContainer).fadeIn(800);},
   'openFunctionIe':function(mainContainer){$(mainContainer).css({'display':'block'});},
-  'clouseFunctionIe':function(mainContainer){$(mainContainer).css({'display':'none'});},
-  'clouseContent':'<span style="cursor:pointer;" title="clouse">X</span>',
-  'clouseShow':true,
+  'closeFunctionIe':function(mainContainer){$(mainContainer).css({'display':'none'});},
+  'closeContent':'<span style="cursor:pointer;" title="close">X</span>',
+  'closeShow':true,
   'idElementPrefix':'zm_',
   'hookBeforeCreateWindow':function(){},
   'hookAfterCreateWindow':function(){}
@@ -70,7 +70,7 @@ jQuery(function( $ ){
   'zm_backfon':$(this).prefix('backfon'),
   'zm_conteiner_text':$(this).prefix('conteiner_text'),
   'zm_text':$(this).prefix('text'),
-  'zm_clouse':$(this).prefix('clouse'),
+  'zm_close':$(this).prefix('close'),
   'zm_styles':$(this).prefix('styles')
   }
    
@@ -92,10 +92,9 @@ jQuery(function( $ ){
   /*Настройки для статичного окна*/
   zm.windowStyle = {
   'body':'overflow:hidden;',
-  'containerText':'overflow:auto; position:relative;'
+  'containerText':'overflow:auto; position:fixed;'
   }
-  	zm.windowStyle.body = 'overflow:hidden;';
-	zm.windowStyle.containerText = 'position:fixed;overflow:auto;';
+        
   if (zm.is_opera_mobile()) {
         zm.windowStyle.body = 'overflow:auto;';
 	zm.windowStyle.containerText = 'position:relative;';
@@ -116,13 +115,13 @@ jQuery(function( $ ){
 	zm.options.openFunction(mainContainer);
 	}
   }
-  zm.clouseWindow = function(){
+  zm.closeWindow = function(){
   mainContainer = $('#'+zm.options.zm_main);
 	if(zm.getInternetExplorerVersion()> 0 &&  zm.getInternetExplorerVersion() < 9){
-	 zm.options.clouseFunctionIe(mainContainer);
+	 zm.options.closeFunctionIe(mainContainer);
 	}
 	else {
-	zm.options.clouseFunction(mainContainer);
+	zm.options.closeFunction(mainContainer);
 	}
 	/**После закрытия окна удаляем все созданные элементы */
 	$('#'+zm.options.zm_styles).remove();
@@ -190,23 +189,23 @@ z-index:100001;\
     top:'+zm.options.windowPosition[1]+';\
     color:white;\
 }\
-#'+zm.options.zm_clouse+'{\
+#'+zm.options.zm_close+'{\
 marin-right:0px;\
 clean:both;\
 position:;\
 }\
 </style>';
-var s_clouse ='';
-if (zm.options.clouseShow) {
+var s_close ='';
+if (zm.options.closeShow) {
   //code
 
- s_clouse = '<div align="right" style="position:relative;"><div style="background:red;position:relative;width:0px;"><div style="position:absolute;" id="'+zm.options.zm_clouse+'">'+zm.options.clouseContent+'</div><br></div></div>';
+ s_close = '<div align="right" style="position:relative;"><div style="background:red;position:relative;width:0px;"><div style="position:absolute;" id="'+zm.options.zm_close+'">'+zm.options.closeContent+'</div><br></div></div>';
 }
 
 s_return += '<div id="'+zm.options.zm_main+'">\
     <div  id="'+zm.options.zm_backfon+'"></div>\
 	<div  id="'+zm.options.zm_conteiner_text+'">\
-<div id="'+zm.options.zm_text+'" >'+s_clouse+''+zm.content+'</div>\
+<div id="'+zm.options.zm_text+'" >'+s_close+''+zm.content+'</div>\
 	  </div></div>';
     
   
@@ -225,12 +224,12 @@ $.fn.afterCreate = function(){
 
 	
 	/**Скрытие окна если происходит клик по фону*/
-	if(zm.options.windowClouseBackClick) {
+	if(zm.options.windowcloseBackClick) {
 	$('#'+zm.options.zm_main).click(function(event)	{
 		var clicked = jQuery(event.target);
 		var is_find = $('#'+zm.options.zm_text).find($(clicked));
 		if(is_find.length == 0 && !(clicked.is('#'+zm.options.zm_text))) {
-				zm.clouseWindow();
+				zm.closeWindow();
 		}
    }); 
    }
@@ -264,9 +263,9 @@ $('#'+zm.options.zm_text).css({'top':_top+'px'});
 /*Добавление прозрачности*/
 $('#'+zm.options.zm_backfon).fadeTo(0,zm.options.windowOpacity);
 /*Добвыление функции скрытия окна на крестик*/
-$('#'+zm.options.zm_clouse).click(function(){
+$('#'+zm.options.zm_close).click(function(){
 
-zm.clouseWindow();
+zm.closeWindow();
 
 });
 
