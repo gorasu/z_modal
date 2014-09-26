@@ -151,9 +151,10 @@ jQuery.z_modal = function(content,options) {
             }
             $(zmTextSelection).css({'top':_top+'px'});
 
-
             /*Выравнивание окна по горизонтали*/
-            var text_width = $(zmTextSelection).width();
+            // Сбрасываем ширину родительского контеинера
+            $(zmTextSelection).css({'width': ""});
+            var text_width = $('#'+zm.options.zm_content).width();
             var leftSubtraction = text_width;
             leftSubtraction = leftSubtraction/2;
             $(zmTextSelection).css({'left':''});
@@ -163,7 +164,7 @@ jQuery.z_modal = function(content,options) {
                 left = 0;
             }
             $(zmTextSelection).css({'left': left});
-             $(zmTextSelection).width(text_width);
+            $(zmTextSelection).width(text_width);
 
         };
 
