@@ -62,17 +62,17 @@ jQuery.z_modal = function(content,options) {
 
         },options);
 
-        $.fn.prefix = function(name){
+        zm.prefix = function(name){
             return zm.options.idElementPrefix+name;
         };
         var elements = {
-            'zm_main':$(this).prefix('main'),
-            'zm_backfon':$(this).prefix('backfon'),
-            'zm_conteiner_text':$(this).prefix('conteiner_text'),
-            'zm_text':$(this).prefix('text'),
-            'zm_close':$(this).prefix('close'),
-            'zm_styles':$(this).prefix('styles'),
-            'zm_content':$(this).prefix('content')
+            'zm_main':zm.prefix('main'),
+            'zm_backfon':zm.prefix('backfon'),
+            'zm_conteiner_text':zm.prefix('conteiner_text'),
+            'zm_text':zm.prefix('text'),
+            'zm_close':zm.prefix('close'),
+            'zm_styles':zm.prefix('styles'),
+            'zm_content':zm.prefix('content')
 
         };
 
@@ -106,9 +106,18 @@ jQuery.z_modal = function(content,options) {
             zm.windowStyle.body = '';
             zm.windowStyle.containerText = 'position:fixed;';
         }
+        else {
+            $('body').on({
+                'mousewheel': function(e) {
+                    if ($('#'+zm.options.zm_main).find(e.target)) return;
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+            });
+        }
 
 
-        $.fn.openWindow = function(){
+        zm.openWindow = function(){
             mainContainer = $('#'+zm.options.zm_main);
             if(zm.getInternetExplorerVersion()> 0 &&  zm.getInternetExplorerVersion() < 9){
                 zm.options.openFunctionIe(mainContainer);
@@ -194,6 +203,9 @@ jQuery.z_modal = function(content,options) {
                     windowsWidthStyle = ' width:'+zm.options.windowWidth+';';
                 }
                 var s_return =  '<style id="'+zm.options.zm_styles+'">\
+html,body{\
+*height:100%\
+}    \
 body {'+zm.windowStyle.body+'}\
 #'+zm.options.zm_main+' {\
 display:none;\
@@ -212,17 +224,16 @@ height:100%;\
 z-index:100;\
 margin:0;\
 paddin:0;\
-top: expression(document.getElementsByTagName("body")[0].scrollTop + "px");  \
+top: expression(parseInt(document.documentElement.scrollTop + document.documentElement.clientHeight - this.offsetHeight, 10) -0 + "px");  \
 }\
 \
 #'+zm.options.zm_conteiner_text+' {\
-background:;\
 width:100%;\
 height:100%;\
 z-index:100001;\
 '+zm.windowStyle.containerText+'\
 *position:absolute;\
-*top: expression(document.getElementsByTagName("body")[0].scrollTop + "px");  \
+top: expression(parseInt(document.documentElement.scrollTop + document.documentElement.clientHeight - this.offsetHeight, 10) -0 + "px");   \
 }\
 #'+zm.options.zm_text+' {\
     '+windowsWidthStyle+'\
@@ -243,7 +254,7 @@ position:;\
                 if (zm.options.closeShow) {
                     //code
 
-                    s_close = '<div align="right" style="position:relative;"><div style="background:red;position:relative;width:0px;"><div style="position:absolute;" id="'+zm.options.zm_close+'">'+zm.options.closeContent+'</div><br></div></div>';
+                    s_close = '<div align="right" style="position:relative;"><div style="position:relative;width:0px;"><div style="position:absolute;" id="'+zm.options.zm_close+'">'+zm.options.closeContent+'</div><br></div></div>';
                 }
 
                 s_return += '<div id="'+zm.options.zm_main+'">\
@@ -256,15 +267,15 @@ position:;\
                 return s_return;
 
             });
-            $(this).openWindow();
+            zm.openWindow();
             /**Вызвали функции после создания*/
-            $(this).afterCreate();
+            zm.afterCreate();
             if(typeof(zm.options.hookAfterCreateWindow) == 'function'){
                 zm.options.hookAfterCreateWindow();
             }
         };
         /**Действия которые выполняются после создания модального окна*/
-        $.fn.afterCreate = function(){
+        zm.afterCreate = function(){
 
 
             /**Скрытие окна если происходит клик по фону*/
@@ -277,11 +288,6 @@ position:;\
                     }
                 });
             }
-
-
-
-
-
 
 
             zm.alignment();

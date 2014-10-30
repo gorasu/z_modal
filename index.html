@@ -25,7 +25,9 @@
 <body>
     
 <script>
-    
+
+
+
     function showStatic(id_template) {
         $.z_modal(jQuery('#'+id_template),{windowType:'notFixed'});
     }
@@ -34,10 +36,13 @@
     }
     
     $(document).ready(function(){
-       
+
+
+
+
        $('[name="showStatic"]').click(function(){
-        var zm = $.z_modal('Hello',{windowType:'notFixed'});
-          setTimeout(function(){zm.insetContent(jQuery('#showStaticTemplate').html())},2000);
+        var zm = $.z_modal(jQuery('#showStaticTemplate2').html(),{windowType:'notFixed'});
+        //  setTimeout(function(){zm.insetContent(jQuery('#showStaticTemplate').html())},2000);
        });
        
        $('[name="showDynamic"]').click(function(){
@@ -99,10 +104,34 @@
     </div>
     
   </script>
-  
-    
+  <script id="showStaticTemplate2" type="text/template">
+
+    <div id="showStaticTemplate_3" class="showStatic_div">
+    В графическом интерфейсе пользователя <i>модальным</i> называется окно, которое блокирует работу пользователя с родительским приложением до тех пор, пока пользователь это окно не закроет. <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>Модальными преимущественно реализованы диалоговые окна. Также модальные окна часто используются для привлечения внимания пользователя к важному событию или критической ситуации.
+   <br>
+
+    </div>
+
+  </script>
+
+    <style>
+/*
+        * html .fixedBlock{ */
+/*хак для ИЕ6*//*
+
+            position: absolute;
+            top: expression(parseInt(document.documentElement.scrollTop + document.documentElement.clientHeight - this.offsetHeight, 10) -0 + "px");
+        }
+
+*/
+
+
+
+    </style>
   Header
-  
+
+<div class="fixedBlock"> FIXED </div>
+
   <ul>
     <li><a name="showStatic"> Показать статическое окно <a> </li>
     <li><a name="showDynamic"> Показать плавающее окно <a> </li>
