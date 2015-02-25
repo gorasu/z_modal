@@ -61,6 +61,7 @@ jQuery.z_modal = function(content,options) {
             'hookAfterCreateWindow':function(){}
 
         },options);
+        console.log(zm.options);
 
         zm.prefix = function(name){
             return zm.options.idElementPrefix+name;
@@ -277,14 +278,17 @@ position:;\
         /**Действия которые выполняются после создания модального окна*/
         zm.afterCreate = function(){
 
-	    var zmOptionsZm_main =  $('#'+zm.options.zm_main).html();
+            var layoutHtml =  $('#'+zm.options.zm_text).html();
             /**Скрытие окна если происходит клик по фону*/
             if(zm.options.windowCloseBackClick) {
+
                 $('#'+zm.options.zm_main).click(function(event)	{
                     var clicked = jQuery(event.target);
                     var is_find = $('#'+zm.options.zm_text).find($(clicked));
                     if(is_find.length == 0){
-                        is_find =  (zmOptionsZm_main.indexOf($(clicked).html(),0) >= 0) ;
+                        if(layoutHtml.indexOf($(clicked).html(),0) >= 0){
+                            is_find.length = 1;
+                        }
                     }
                     if(is_find.length == 0 && !(clicked.is('#'+zm.options.zm_text))) {
                         zm.closeWindow();
@@ -296,8 +300,8 @@ position:;\
             zm.alignment();
             /*Добавление прозрачности*/
             $('#'+zm.options.zm_backfon).fadeTo(0,zm.options.windowOpacity);
-            /*Добвыление функции скрытия окна на крестик*/
-            $('#'+zm.options.zm_close).click(function(){
+            /*Добавление функции скрытия окна при нажатии на крестик*/
+            $('#'+zm.options.zm_close).add('[name="'+zm.options.zm_close+'"]').click(function(){
 
                 zm.closeWindow();
 
