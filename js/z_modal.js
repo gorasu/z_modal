@@ -277,12 +277,15 @@ position:;\
         /**Действия которые выполняются после создания модального окна*/
         zm.afterCreate = function(){
 
-
+	    var zmOptionsZm_main =  $('#'+zm.options.zm_main).html();
             /**Скрытие окна если происходит клик по фону*/
             if(zm.options.windowCloseBackClick) {
                 $('#'+zm.options.zm_main).click(function(event)	{
                     var clicked = jQuery(event.target);
                     var is_find = $('#'+zm.options.zm_text).find($(clicked));
+                    if(is_find.length == 0){
+                        is_find =  (zmOptionsZm_main.indexOf($(clicked).html(),0) >= 0) ;
+                    }
                     if(is_find.length == 0 && !(clicked.is('#'+zm.options.zm_text))) {
                         zm.closeWindow();
                     }
