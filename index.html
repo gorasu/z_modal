@@ -5,7 +5,7 @@
 <meta name="author" content="Voronin Alexandr z-site.ru">
     <script src="js/jquery.js"></script>
     <script src="js/z_modal.js"></script>
-<title>Z_modal</title>   
+<title>Z_modal</title>
 <style>
     body, html {
         padding: 0;
@@ -15,15 +15,15 @@
        background: #00A1FF;
        border-radius: 5px;
        padding: 10px;
-       box-shadow: 0px 0px 0px rgba(191, 191, 191, 0.8); 
-    
+       box-shadow: 0px 0px 0px rgba(191, 191, 191, 0.8);
+
     }
-    
-    
+
+
 </style>
 </head>
 <body>
-    
+
 <script>
 
 
@@ -34,7 +34,7 @@
     function showDynamic(id_template) {
         $.z_modal(jQuery('#'+id_template));
     }
-    
+
     $(document).ready(function(){
 
 
@@ -44,19 +44,19 @@
         var zm = $.z_modal(jQuery('#showStaticTemplate2').html(),{windowType:'notFixed'});
         //  setTimeout(function(){zm.insetContent(jQuery('#showStaticTemplate').html())},2000);
        });
-       
+
        $('[name="showDynamic"]').click(function(){
         $.z_modal(jQuery('#showStaticTemplate').html())
-       });       
-      
-    
+       });
+
+
     });
-    
-    
+
+
 </script>
-  
+
   <script id="showStaticTemplate" type="text/template">
-    
+
     <div id="showStaticTemplate" class="showStatic_div">
     В графическом интерфейсе пользователя <i>модальным</i> называется окно, которое блокирует работу пользователя с родительским приложением до тех пор, пока пользователь это окно не закроет. Модальными преимущественно реализованы диалоговые окна. Также модальные окна часто используются для привлечения внимания пользователя к важному событию или критической ситуации.
    <br>
@@ -99,10 +99,10 @@
    <li>Потребовать от пользователя ввод какой-либо информации — начиная от простого «да/нет» до большого количества настроек или данных, необходимых для продолжения работы с родительским окном или приложением;</li>
     <li>Привлечь внимание пользователя к чему-либо важному. Этот вариант часто критикуется специалистами по эргономике, потому что редко это важно настолько, чтоб блокировать работу приложения целиком, но, тем не менее, продолжает использоваться по той причине, что он существенно более лёгок в реализации;</li>
     <li>Указать пользователю на невозможность отмены выполняемого им действия и потребовать подтверждения этого действия. Этот вариант тоже критикуется, вместо него рекомендуется обеспечить-таки возможность отмены</li>
-    
+
 </ul>
     </div>
-    
+
   </script>
   <script id="showStaticTemplate2" type="text/template">
 
@@ -135,10 +135,10 @@
   <ul>
     <li><a name="showStatic"> Показать статическое окно <a> </li>
     <li><a name="showDynamic"> Показать плавающее окно <a> </li>
-    
-    
+
+
   </ul>
-  
+
    <br><br>
    <br><br>
    <br><br>
@@ -233,14 +233,14 @@
    <br><br>
    <br><br>
    <br><br>
-   
+
    Footer
      <ul>
     <li><a name="showStatic"> Показать статическое окно </a> </li>
      <li><a name="showDynamic"> Показать плавающее окно </a> </li>
-    
+
   </ul>
-     
+
     <br><br>
    <br><br>
    <br><br>
@@ -529,12 +529,12 @@
    <br><br>
    <br><br>
    <br><br>
-   <br><br>   
+   <br><br>
         <ul>
     <li><a name="showStatic"> Показать статическое окно </a> </li>
      <li><a name="showDynamic"> Показать плавающее окно </a> </li>
-    
-  </ul>  
+
+  </ul>
 </body>
 
 </html>

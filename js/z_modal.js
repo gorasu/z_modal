@@ -78,9 +78,8 @@ jQuery.z_modal = function(content,options) {
             'closeContent':'<span style="cursor:pointer;" title="close">X</span>',
             'closeShow':true,
             'idElementPrefix':'zm_',
-            'hooksData':{},
             'hooks':[],
-            'isDev':true
+            'isDev':false
 
         },options);
 
