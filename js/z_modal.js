@@ -1,4 +1,4 @@
-/** z_modal v 0.9.9.10
+/** z_modal v 1.0.0.0
  * by Alexandr Voronin http://z-site.ru
  *
  * @param (str or dom el) content - контент модального окна, принимает строку или ссылку на элемент dom содержимое элемента становится модальным окном
@@ -19,8 +19,8 @@
  * @param (str)options.closeContent - контент для закрывашки
  * @param (bul)options.closeShow - показывать ли закрывашку true(def)
  *
- * @param (fun) options.hookBeforeCreateWindow - пользовательская функция до создания модального окна
- * @param (fun) options.hookAfterCreateWindow - пользовательская функция после создания модального окна
+ * @param (obj) options.hooks - объект содержащий в себе хуки hooks = {'HOOK_NAME':[{'function':function(data){},'data':data}]}
+ * @param (bol) options.isDev - вывод отладочной информации
  *
  * @param (str)options.idElementPrefix -zm_(default) префикс для элементов модального окна
  * @param options.zm_* - id блоков модального окна
@@ -28,6 +28,27 @@
  *
  * @return zm.closeWindow() - функция которая закрывает окно
  * @return zm.create() - функция для создания окна
+ *
+ *
+ *  Рыбота с плагином
+ *
+ *  Для открытия модального окна достаточно вызвать следующую конструкцию
+ *
+ *  $.z_modal('Hello world!');
+ *
+ *  Описание опций см. документацию
+ *
+ *  Работа с хуками
+ *
+ *  В options необходимо передать объект hooks
+ *  options.hooks = {
+ *  'HookName': - имя хука
+ *   [
+ *   {'function':function(data){},'data':data}, - действия завязанные на хук
+ *   {'function':function(data){},'data':data},
+ *
+ *   ]
+ *  }
  *
  *
  *
@@ -57,11 +78,11 @@ jQuery.z_modal = function(content,options) {
             'closeContent':'<span style="cursor:pointer;" title="close">X</span>',
             'closeShow':true,
             'idElementPrefix':'zm_',
-            'hookBeforeCreateWindow':function(){},
-            'hookAfterCreateWindow':function(){}
+            'hooksData':{},
+            'hooks':[],
+            'isDev':true
 
         },options);
-        console.log(zm.options);
 
         zm.prefix = function(name){
             return zm.options.idElementPrefix+name;
@@ -78,7 +99,11 @@ jQuery.z_modal = function(content,options) {
         };
 
 
+
         zm.options = $.extend(elements,zm.options);
+        zm.isDev = function(){
+            zm.options.isDev;
+        }
         zm.is_opera_mobile = function() {
             if (navigator.appName == 'Opera')
             {
@@ -91,6 +116,36 @@ jQuery.z_modal = function(content,options) {
 
         };
 
+
+        zm._callHooksObj = [];
+        zm.callHook = function(hookName,data){
+            if(zm.isDev){
+                console.group("Z-modal hooks");
+                console.info('Hook name ' + hookName);
+                console.groupEnd();
+                zm._callHooksObj.push(hookName);
+                console.log(zm._callHooksObj);
+            }
+
+
+            if(zm.options.hooks[hookName] == undefined){
+                //console.error('Hook '+ hookName +' does not exists');
+                return false;
+            }
+            var hookArray =zm.options.hooks[hookName];
+
+            if(!(hookArray instanceof Array)){
+                hookArray = [hookArray];
+            }
+            console.log(hookArray);
+            for(var i = 0; i < hookArray.length; i++){
+                if(!(hookArray[i]['function'] instanceof Function) ){
+                    console.warn('Hook '+ hookName +'['+i+']["function"] is not a function');
+                    continue;
+                }
+                hookArray[i]['function'](hookArray[i]['data'],data,zm);
+            }
+        }
 
         /*Настройки для статичного окна*/
         zm.windowStyle = {
@@ -119,6 +174,7 @@ jQuery.z_modal = function(content,options) {
 
 
         zm.openWindow = function(){
+            zm.callHook('beforeOpenWindow');
             mainContainer = $('#'+zm.options.zm_main);
             if(zm.getInternetExplorerVersion()> 0 &&  zm.getInternetExplorerVersion() < 9){
                 zm.options.openFunctionIe(mainContainer);
@@ -126,9 +182,10 @@ jQuery.z_modal = function(content,options) {
             else {
                 zm.options.openFunction(mainContainer);
             }
+            zm.callHook('afterOpenWindow');
         };
         zm.closeWindow = function(){
-
+            zm.callHook('beforeCloseWindow');
             mainContainer = $('#'+zm.options.zm_main);
             if(zm.getInternetExplorerVersion()> 0 &&  zm.getInternetExplorerVersion() < 9){
                 zm.options.closeFunctionIe(mainContainer);
@@ -139,6 +196,7 @@ jQuery.z_modal = function(content,options) {
             /**После закрытия окна удаляем все созданные элементы */
             $('#'+zm.options.zm_styles).remove();
             $(mainContainer).remove();
+            zm.callHook('afterCloseWindow');
         };
 
         zm.insetContent = function(content){
@@ -194,9 +252,9 @@ jQuery.z_modal = function(content,options) {
         }
         /**Создание модального окна, добавляем в body контент*/
         zm.create = function(){
-            if(typeof(zm.options.hookBeforeCreateWindow) == 'function'){
-                zm.options.hookBeforeCreateWindow();
-            }
+
+            zm.callHook('beforeCreateWindow');
+
 
             $('body').prepend(function(index,el){
                 var windowsWidthStyle = '';
@@ -271,9 +329,9 @@ position:;\
             zm.openWindow();
             /**Вызвали функции после создания*/
             zm.afterCreate();
-            if(typeof(zm.options.hookAfterCreateWindow) == 'function'){
-                zm.options.hookAfterCreateWindow();
-            }
+            zm.callHook('afterCreateWindow');
+
+
         };
         /**Действия которые выполняются после создания модального окна*/
         zm.afterCreate = function(){
