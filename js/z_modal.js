@@ -101,7 +101,7 @@ jQuery.z_modal = function(content,options) {
 
         zm.options = $.extend(elements,zm.options);
         zm.isDev = function(){
-            zm.options.isDev;
+          return   zm.options.isDev;
         }
         zm.is_opera_mobile = function() {
             if (navigator.appName == 'Opera')
@@ -118,7 +118,7 @@ jQuery.z_modal = function(content,options) {
 
         zm._callHooksObj = [];
         zm.callHook = function(hookName,data){
-            if(zm.isDev){
+            if(zm.isDev()){
                 console.group("Z-modal hooks");
                 console.info('Hook name ' + hookName);
                 console.groupEnd();
@@ -128,7 +128,6 @@ jQuery.z_modal = function(content,options) {
 
 
             if(zm.options.hooks[hookName] == undefined){
-                //console.error('Hook '+ hookName +' does not exists');
                 return false;
             }
             var hookArray =zm.options.hooks[hookName];
@@ -136,7 +135,6 @@ jQuery.z_modal = function(content,options) {
             if(!(hookArray instanceof Array)){
                 hookArray = [hookArray];
             }
-            console.log(hookArray);
             for(var i = 0; i < hookArray.length; i++){
                 if(!(hookArray[i]['function'] instanceof Function) ){
                     console.warn('Hook '+ hookName +'['+i+']["function"] is not a function');
