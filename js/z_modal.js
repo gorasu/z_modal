@@ -340,7 +340,7 @@ position:;\
                 $('#'+zm.options.zm_main).click(function(event)	{
                     var clicked = jQuery(event.target);
                     var is_find = $('#'+zm.options.zm_text).find($(clicked));
-                    is_find = is_find.length ? is_find :  $(clicked).parentsUntil('#'+zm.options.zm_text);
+                    is_find = is_find.length ? is_find :  $(clicked).parents('#'+zm.options.zm_text);
                     if(is_find.length == 0){
                         if(layoutHtml.indexOf($(clicked).html(),0) >= 0){
                             is_find.length = 1;
