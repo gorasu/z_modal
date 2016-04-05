@@ -270,7 +270,7 @@ width:100%;\
 margin:0;\
 padding:0;\
 z-index:1500;\
-*position:absolute;}\
+position:absolute;}\
 #'+zm.options.zm_backfon+' {\
 background: '+zm.options.windowBackground+';\
 position:fixed;\
